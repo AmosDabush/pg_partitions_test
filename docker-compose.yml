@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_partition_test
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_DB: test_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  node:
+    image: node:18
+    container_name: node_sequelize_test
+    working_dir: /app
+    volumes:
+      - ./node-app:/app
+    environment:
+      DB_HOST: postgres
+      DB_USER: test_user
+      DB_PASSWORD: test_password
+      DB_NAME: test_db
+    depends_on:
+      - postgres
+    command: ["sh", "-c", "yarn install && yarn start"]
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_partition_test
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+
+volumes:
+  postgres_data:
