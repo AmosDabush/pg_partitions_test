@@ -1,0 +1,10 @@
+{
+    "scripts": {
+        "docker:start": "docker compose down && docker compose up",
+        "docker:up:build": "docker compose down && docker compose up --build",
+        "docker:build": "docker compose build",
+        "docker:restart": "docker compose restart",
+        "docker:clean": "docker system prune -f"
+    }
+
+}
