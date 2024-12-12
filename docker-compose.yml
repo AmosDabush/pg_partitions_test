@@ -13,11 +13,10 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   node:
-    image: node:18
+    build:
+      context: ./node-app
+      dockerfile: Dockerfile
     container_name: node_sequelize_test
-    working_dir: /app
-    volumes:
-      - ./node-app:/app
     environment:
       DB_HOST: postgres
       DB_USER: test_user
@@ -25,7 +24,10 @@ services:
       DB_NAME: test_db
     depends_on:
       - postgres
-    command: ["sh", "-c", "yarn install && yarn start"]
+    ports:
+      - "3000:3000"
+
+
 
   pgadmin:
     image: dpage/pgadmin4
