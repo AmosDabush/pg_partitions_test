@@ -1,0 +1,1 @@
+# pg_partitions_test
